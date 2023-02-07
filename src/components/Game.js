@@ -16,6 +16,22 @@ const Game = () => {
             y: Math.floor(Math.random() * 10)
         }
     }
+    const moveSnake = () => {
+        setSnake((pastSnake) => {
+            const head = pastSnake[pastSnake.length - 1]
+            console.log(head)
+            switch(direction){
+                case left: head.y += -1; break;
+                case up: head.x += -1; break;
+                case right: head.y += 1; break;
+                case down: head.x += 1; break;
+            }
+            pastSnake.push(head)
+            pastSnake.shift()
+            console.log(pastSnake)
+            return pastSnake
+        })
+    }
     const [board, setBoard] = useState(clearBoard)
     const [snake, setSnake] = useState([getRandomSpot()])
     const [food, setFood] = useState(getRandomSpot())
@@ -48,6 +64,7 @@ const Game = () => {
         })
     }
     document.addEventListener('keydown', handleKeyDown)
+    // setInterval(moveSnake, 1000)
     return (
         <div>
             <div className="game-container">

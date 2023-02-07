@@ -19,3 +19,15 @@
     width: 30px;
     height: 30px;
 }
+.snake{
+    border: 1px solid green;
+    background-color: greenyellow;
+    width: 30px;
+    height: 30px;
+}
+.food{
+    border: 1px solid red;
+    background-color: palevioletred;
+    width: 30px;
+    height: 30px;
+}

@@ -30,7 +30,24 @@ const Game = () => {
     }
     useEffect(() => {
         setBoard(snakeAndFood())
-    }, snake)
+    }, [snake])
+    const handleKeyDown = (e) => {
+        setDirection(pastDirection => {
+            switch(e.keyCode){
+                case left:
+                    return (pastDirection === right) ? right : left;
+                case right:
+                    return (pastDirection === left) ? left : right;
+                case up:
+                    return (pastDirection === down) ? down : up;
+                case down:
+                    return (pastDirection === up) ? up : down;
+                case stop:
+                    return stop
+            }
+        })
+    }
+    document.addEventListener('keydown', handleKeyDown)
     return (
         <div>
             <div className="game-container">

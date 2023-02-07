@@ -1,0 +1,21 @@
+*{
+    box-sizing: border-box;
+}
+.game-container{
+    width: 500px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.game-board{
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.empty{
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+}

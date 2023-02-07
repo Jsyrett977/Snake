@@ -10,16 +10,27 @@ const Game = () => {
         }
         return array
     }
+    const getRandomSpot = () => {
+        return {
+            x: Math.floor(Math.random() * 10),
+            y: Math.floor(Math.random() * 10)
+        }
+    }
     const [board, setBoard] = useState(clearBoard)
-    const [snake, setSnake] = useState({})
-    const [food, setFood] = useState([])
+    const [snake, setSnake] = useState([getRandomSpot()])
+    const [food, setFood] = useState(getRandomSpot())
     const [speed, setSpeed] = useState(100)
     const [stop, left, up, right, down] = [32, 37, 38, 39, 40]
     const [direction, setDirection] = useState(stop)
-    const getRandomSpot = () => {
+    const snakeAndFood = () => {
+        const snakeBoard = clearBoard()
+        snake.forEach((snakePart) => snakeBoard[snakePart.x][snakePart.y] = 'snake')
+        snakeBoard[food.x][food.y] = 'food'
+        return snakeBoard
     }
-
-    console.log(board)
+    useEffect(() => {
+        setBoard(snakeAndFood())
+    }, snake)
     return (
         <div>
             <div className="game-container">

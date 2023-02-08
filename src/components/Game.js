@@ -18,18 +18,17 @@ const Game = () => {
     }
     const moveSnake = () => {
         setSnake((pastSnake) => {
-            const head = pastSnake[pastSnake.length - 1]
-            console.log(head)
+            const pastSnakeCopy = [...pastSnake]
+            const head = pastSnakeCopy[pastSnake.length - 1]
             switch(direction){
                 case left: head.y += -1; break;
                 case up: head.x += -1; break;
                 case right: head.y += 1; break;
                 case down: head.x += 1; break;
             }
-            pastSnake.push(head)
-            pastSnake.shift()
-            console.log(pastSnake)
-            return pastSnake
+            pastSnakeCopy.push(head)
+            pastSnakeCopy.shift()
+            return pastSnakeCopy
         })
     }
     const [board, setBoard] = useState(clearBoard)
@@ -42,11 +41,14 @@ const Game = () => {
         const snakeBoard = clearBoard()
         snake.forEach((snakePart) => snakeBoard[snakePart.x][snakePart.y] = 'snake')
         snakeBoard[food.x][food.y] = 'food'
-        return snakeBoard
+        setBoard(snakeBoard)
     }
+    // useEffect(() => {
+    //     setInterval(moveSnake, 3000)
+    // }, [snake, food, direction])
     useEffect(() => {
-        setBoard(snakeAndFood())
-    }, [snake])
+        snakeAndFood()
+    }, [snake, food, direction])
     const handleKeyDown = (e) => {
         setDirection(pastDirection => {
             switch(e.keyCode){
@@ -64,12 +66,12 @@ const Game = () => {
         })
     }
     document.addEventListener('keydown', handleKeyDown)
-    // setInterval(moveSnake, 1000)
+    setInterval(moveSnake, 3000)
     return (
         <div>
             <div className="game-container">
                 <div className="game-board">
-                    {board.map((column, i) => column.map((row, j) => {return <div className={row}/>}))}
+                    {board.map((column, i) => column.map((row, j) => {return <div key={`${i}, ${j}`} className={row}/>}))}
                 </div>
             </div>
         </div>

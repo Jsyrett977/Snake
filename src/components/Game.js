@@ -19,7 +19,7 @@ const Game = () => {
     const [board, setBoard] = useState(clearBoard)
     const [snake, setSnake] = useState([getRandomSpot()])
     const [food, setFood] = useState(getRandomSpot())
-    const [speed, setSpeed] = useState(100)
+    const [speed, setSpeed] = useState(500)
     const [stop, left, up, right, down] = [32, 37, 38, 39, 40]
     const [direction, setDirection] = useState(32)
     const moveSnake = () => {
@@ -44,7 +44,7 @@ const Game = () => {
         setBoard(snakeBoard)
     }
     useEffect(() => {
-       const timer = setInterval(moveSnake, 1000)
+       const timer = setInterval(moveSnake, speed)
        return () => {
         clearInterval(timer)
        }
@@ -69,10 +69,6 @@ const Game = () => {
         })
     }
     document.addEventListener('keydown', handleKeyDown)
-    // const timer = setInterval(moveSnake, 3000)
-    // return () => {
-    //  clearInterval(timer)
-    // }
     return (
         <div>
             <div className="game-container">

@@ -16,10 +16,16 @@ const Game = () => {
             y: Math.floor(Math.random() * 10)
         }
     }
+    const [board, setBoard] = useState(clearBoard)
+    const [snake, setSnake] = useState([getRandomSpot()])
+    const [food, setFood] = useState(getRandomSpot())
+    const [speed, setSpeed] = useState(500)
+    const [stop, left, up, right, down] = [32, 37, 38, 39, 40]
+    const [direction, setDirection] = useState(32)
     const moveSnake = () => {
         setSnake((pastSnake) => {
             const pastSnakeCopy = [...pastSnake]
-            const head = pastSnakeCopy[pastSnake.length - 1]
+            const head = pastSnakeCopy[pastSnakeCopy.length - 1]
             switch(direction){
                 case left: head.y += -1; break;
                 case up: head.x += -1; break;
@@ -31,21 +37,18 @@ const Game = () => {
             return pastSnakeCopy
         })
     }
-    const [board, setBoard] = useState(clearBoard)
-    const [snake, setSnake] = useState([getRandomSpot()])
-    const [food, setFood] = useState(getRandomSpot())
-    const [speed, setSpeed] = useState(100)
-    const [stop, left, up, right, down] = [32, 37, 38, 39, 40]
-    const [direction, setDirection] = useState(stop)
     const snakeAndFood = () => {
         const snakeBoard = clearBoard()
         snake.forEach((snakePart) => snakeBoard[snakePart.x][snakePart.y] = 'snake')
         snakeBoard[food.x][food.y] = 'food'
         setBoard(snakeBoard)
     }
-    // useEffect(() => {
-    //     setInterval(moveSnake, 3000)
-    // }, [snake, food, direction])
+    useEffect(() => {
+       const timer = setInterval(moveSnake, speed)
+       return () => {
+        clearInterval(timer)
+       }
+    }, [direction])
     useEffect(() => {
         snakeAndFood()
     }, [snake, food, direction])
@@ -66,7 +69,6 @@ const Game = () => {
         })
     }
     document.addEventListener('keydown', handleKeyDown)
-    setInterval(moveSnake, 3000)
     return (
         <div>
             <div className="game-container">

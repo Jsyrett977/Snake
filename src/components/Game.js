@@ -25,7 +25,7 @@ const Game = () => {
     const moveSnake = () => {
         setSnake((pastSnake) => {
             const pastSnakeCopy = [...pastSnake]
-            const head = pastSnakeCopy[pastSnakeCopy.length - 1]
+            const head = {...pastSnakeCopy[pastSnakeCopy.length - 1]}
             switch(direction){
                 case left: head.y += -1; break;
                 case up: head.x += -1; break;
@@ -37,9 +37,22 @@ const Game = () => {
             return pastSnakeCopy
         })
     }
+    const eatFruit = () => {
+        setSnake(snakeCopy => {
+            const pastSnakeCopy = [...snakeCopy]
+            const head = pastSnakeCopy[pastSnakeCopy.length - 1]
+            if(head.x === food.x && head.y === food.y){
+                setFood(getRandomSpot())
+                pastSnakeCopy.push(head)
+            }
+            console.log('called')
+            return pastSnakeCopy
+        })
+    }
     const snakeAndFood = () => {
         const snakeBoard = clearBoard()
         snake.forEach((snakePart) => snakeBoard[snakePart.x][snakePart.y] = 'snake')
+        console.log(snake)
         snakeBoard[food.x][food.y] = 'food'
         setBoard(snakeBoard)
     }
@@ -51,7 +64,12 @@ const Game = () => {
     }, [direction])
     useEffect(() => {
         snakeAndFood()
-    }, [snake, food, direction])
+    }, [snake])
+    useEffect(() => {
+        if(snake[snake.length-1].x === food.x && snake[snake.length-1].y === food.y){
+        eatFruit()
+        }
+    }, [snake])
     const handleKeyDown = (e) => {
         setDirection(pastDirection => {
             switch(e.keyCode){

@@ -31,6 +31,7 @@ const Game = () => {
                 case up: head.x += -1; break;
                 case right: head.y += 1; break;
                 case down: head.x += 1; break;
+                case stop: return pastSnakeCopy
             }
             head.x === 10 ? head.x = 0 : null;
             head.y === 10 ? head.y = 0 :  null;
@@ -46,6 +47,7 @@ const Game = () => {
             const pastSnakeCopy = [...snakeCopy]
             const head = pastSnakeCopy[pastSnakeCopy.length - 1]
             setFood(getRandomSpot())
+            setSpeed(speed - 25)
             pastSnakeCopy.push(head)
             return pastSnakeCopy
         })

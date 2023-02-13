@@ -89,6 +89,8 @@ const Game = () => {
     document.addEventListener('keydown', handleKeyDown)
     return (
         <div>
+            <h1>Snake Game</h1>
+            <p>Press any arrow key to start<br/>Press the space bar to pause</p>
             <div className="game-container">
                 <div className="game-board">
                     {board.map((column, i) => column.map((row, j) => {return <div key={`${i}, ${j}`} className={row}/>}))}

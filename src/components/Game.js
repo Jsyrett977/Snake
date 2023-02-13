@@ -32,6 +32,10 @@ const Game = () => {
                 case right: head.y += 1; break;
                 case down: head.x += 1; break;
             }
+            head.x === 10 ? head.x = 0 : null;
+            head.y === 10 ? head.y = 0 :  null;
+            head.x === -1 ? head.x = 9 : null;
+            head.y === -1 ? head.y = 9 :  null; 
             pastSnakeCopy.push(head)
             pastSnakeCopy.shift()
             return pastSnakeCopy
@@ -41,18 +45,14 @@ const Game = () => {
         setSnake(snakeCopy => {
             const pastSnakeCopy = [...snakeCopy]
             const head = pastSnakeCopy[pastSnakeCopy.length - 1]
-            if(head.x === food.x && head.y === food.y){
-                setFood(getRandomSpot())
-                pastSnakeCopy.push(head)
-            }
-            console.log('called')
+            setFood(getRandomSpot())
+            pastSnakeCopy.push(head)
             return pastSnakeCopy
         })
     }
     const snakeAndFood = () => {
         const snakeBoard = clearBoard()
         snake.forEach((snakePart) => snakeBoard[snakePart.x][snakePart.y] = 'snake')
-        console.log(snake)
         snakeBoard[food.x][food.y] = 'food'
         setBoard(snakeBoard)
     }

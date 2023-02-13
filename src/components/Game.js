@@ -16,12 +16,6 @@ const Game = () => {
             y: Math.floor(Math.random() * 10)
         }
     }
-    const [board, setBoard] = useState(clearBoard)
-    const [snake, setSnake] = useState([getRandomSpot()])
-    const [food, setFood] = useState(getRandomSpot())
-    const [speed, setSpeed] = useState(500)
-    const [stop, left, up, right, down] = [32, 37, 38, 39, 40]
-    const [direction, setDirection] = useState(32)
     const moveSnake = () => {
         setSnake((pastSnake) => {
             const pastSnakeCopy = [...pastSnake]
@@ -47,7 +41,7 @@ const Game = () => {
             const pastSnakeCopy = [...snakeCopy]
             const head = pastSnakeCopy[pastSnakeCopy.length - 1]
             setFood(getRandomSpot())
-            setSpeed(speed - 25)
+            speed === 25 ? null : setSpeed(speed - 25)
             pastSnakeCopy.push(head)
             return pastSnakeCopy
         })
@@ -58,6 +52,27 @@ const Game = () => {
         snakeBoard[food.x][food.y] = 'food'
         setBoard(snakeBoard)
     }
+    const checkLoss = () => {
+        if(snake.length > 3){
+        const snakeCopy = [...snake]
+        const head = snakeCopy.pop()
+        for(let i = 0; i < snakeCopy.length -1; i++){
+        if(head.x === snake[i].x && head.y === snake[i].y){
+            setBoard(clearBoard())
+            setSnake([getRandomSpot()])
+            setFood(getRandomSpot())
+            setSpeed(300)
+            setDirection(stop)
+            alert('game over')
+        }
+        }}
+    }
+    const [board, setBoard] = useState(clearBoard)
+    const [snake, setSnake] = useState([getRandomSpot()])
+    const [food, setFood] = useState(getRandomSpot())
+    const [speed, setSpeed] = useState(300)
+    const [stop, left, up, right, down] = [32, 37, 38, 39, 40]
+    const [direction, setDirection] = useState(32)
     useEffect(() => {
        const timer = setInterval(moveSnake, speed)
        return () => {
@@ -66,6 +81,7 @@ const Game = () => {
     }, [direction])
     useEffect(() => {
         snakeAndFood()
+        checkLoss()
     }, [snake])
     useEffect(() => {
         if(snake[snake.length-1].x === food.x && snake[snake.length-1].y === food.y){
